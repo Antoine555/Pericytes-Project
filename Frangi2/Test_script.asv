@@ -1,0 +1,38 @@
+%Frangi filter script
+
+load('M2.mat');
+
+% Frangi Filter the volume M2
+options.BlackWhite=false;
+options.FrangiScaleRange=[1 8];
+M2filtered=FrangiFilter3D(M2,options);
+
+% scale the intensities of the Frangi output
+M2filt=M2filtered.*1000;
+M2filt=uint8(M2filt);
+
+figure
+x=linspace (1,size(M2,1),size(M2,1));
+y=linspace (1,size(M2,2),size(M2,2));
+z=linspace (1,size(M2,3),size(M2,3));
+
+fv=isosurface(x,y,z,M2,173);
+p = patch(fv);
+%isonormals(M,p)
+p.FaceColor = 'red';
+p.EdgeColor = 'none';
+daspect([1,1,1])
+view(3); axis tight
+camlight
+lighting gouraud
+fv=isosurface(x,y,z,M2filt,10);
+p = patch(fv);
+%isonormals(M2filtered,p)
+p.FaceColor = 'blue';
+p.EdgeColor = 'none';
+daspect([1,1,1])
+view(3); axis tight
+camlight
+lighting gouraud
+
+   
